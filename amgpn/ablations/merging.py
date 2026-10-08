@@ -565,7 +565,7 @@ class GPNTrainer:
         """
         self.model.train()
 
-        support_signals, support_labels, query_signals, query_labels = meta_batch
+        support_signals, support_labels, query_signals, query_labels, *extra = meta_batch
         batch_size = support_signals.size(0)
 
         total_loss = 0

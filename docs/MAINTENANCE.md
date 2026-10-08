@@ -74,3 +74,30 @@ to prototype equations.
 Legacy examples may still depend on externally supplied dataset objects or
 unfinished combinations of older trainer interfaces. Their reference status is
 explicit; successful syntax or catalog checks do not establish runtime validity.
+
+## Synthetic CPU Runtime Smoke Tests
+
+Run with the runtime dependencies installed:
+
+```bash
+python -m unittest discover -s tests -p test_runtime_smoke.py -v
+```
+
+The test creates synthetic spectrograms, a tiny backbone configuration and temporary
+checkpoints outside the repository. It uses the real PyTorch backbone, method heads,
+optimizer and MetaDataset/DataLoader rather than replacing tensor computations with
+stubs. No original data, private experimental configuration or trained weights are read.
+Without PyTorch the runtime test is explicitly skipped; a skipped test does not establish
+runtime usability.
+
+Verified on 2026-10-08 with Python 3.11.15 and PyTorch 2.14.1 on CPU:
+PN, GPN, AMGPN, FEAT, UNEM, pairwise, hierarchical and DBSCAN. All eight branches
+passed finite forward-loss and probability checks, one optimizer update, two evaluation
+episodes and exact checkpoint restoration. All four adaptive merging policies also
+collapsed three identical prototypes per class into one. The full suite passed 17 tests.
+CNN, Matching Network, historical branches, GPU execution, complete notebook workflows
+and paper-quality training/evaluation remain outside this runtime smoke coverage.
+
+These checks exposed and repaired the five-item episode unpacking in the primary and
+merging trainers, FEAT adaptor checkpoint restoration, and FEAT training-mode restoration
+when a training step follows evaluation. Synthetic accuracy is not a paper result.

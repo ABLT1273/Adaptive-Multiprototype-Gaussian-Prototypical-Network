@@ -27,7 +27,7 @@
         "notebooks/evaluation/paper_comparisons.ipynb"
       ],
       "notes": [],
-      "validation": "Structure and interface ownership checked; trained execution not performed."
+      "validation": "Synthetic CPU smoke passed: forward, optimizer update, evaluation and checkpoint restoration (2026-10-08); paper reproduction not performed."
     },
     "pn": {
       "title": "Single mean prototype with Euclidean scoring",
@@ -55,7 +55,7 @@
         "notebooks/evaluation/paper_comparisons.ipynb"
       ],
       "notes": [],
-      "validation": "Structure and interface ownership checked; trained execution not performed."
+      "validation": "Synthetic CPU smoke passed: forward, optimizer update, evaluation and checkpoint restoration (2026-10-08); paper reproduction not performed."
     },
     "gpn": {
       "title": "Single Gaussian prototype with Mahalanobis scoring",
@@ -83,7 +83,7 @@
         "notebooks/evaluation/paper_comparisons.ipynb"
       ],
       "notes": [],
-      "validation": "Structure and interface ownership checked; trained execution not performed."
+      "validation": "Synthetic CPU smoke passed: forward, optimizer update, evaluation and checkpoint restoration (2026-10-08); paper reproduction not performed."
     },
     "feat": {
       "title": "FEAT-style support self-attention and query cross-attention",
@@ -112,7 +112,7 @@
       "notes": [
         "Distance choice is supplied explicitly or through private configuration. This is a FEAT-style implementation, not a claim of equivalence to the original FEAT release."
       ],
-      "validation": "Structure and interface ownership checked; trained execution not performed."
+      "validation": "Synthetic CPU smoke passed: forward, optimizer update, evaluation and checkpoint restoration (2026-10-08); paper reproduction not performed."
     },
     "unem": {
       "title": "UNEM-style transductive Gaussian/GMM refinement",
@@ -143,7 +143,7 @@
       "notes": [
         "Uses unlabeled query features during transductive refinement. Loss/head parameters are part of the optimizer."
       ],
-      "validation": "Structure and interface ownership checked; trained execution not performed."
+      "validation": "Synthetic CPU smoke passed: forward, optimizer update, evaluation and checkpoint restoration (2026-10-08); paper reproduction not performed."
     },
     "merge-pairwise": {
       "title": "Pairwise merging with instance initialization",
@@ -171,7 +171,7 @@
         "notebooks/evaluation/merging.ipynb"
       ],
       "notes": [],
-      "validation": "Structure and interface ownership checked; trained execution not performed."
+      "validation": "Synthetic CPU smoke passed: forward, optimizer update, evaluation and checkpoint restoration (2026-10-08); paper reproduction not performed."
     },
     "merge-hierarchical": {
       "title": "Hierarchical merging with instance initialization",
@@ -199,7 +199,7 @@
         "notebooks/evaluation/merging.ipynb"
       ],
       "notes": [],
-      "validation": "Structure and interface ownership checked; trained execution not performed."
+      "validation": "Synthetic CPU smoke passed: forward, optimizer update, evaluation and checkpoint restoration (2026-10-08); paper reproduction not performed."
     },
     "merge-dbscan": {
       "title": "Dbscan merging with instance initialization",
@@ -227,7 +227,7 @@
         "notebooks/evaluation/merging.ipynb"
       ],
       "notes": [],
-      "validation": "Structure and interface ownership checked; trained execution not performed."
+      "validation": "Synthetic CPU smoke passed: forward, optimizer update, evaluation and checkpoint restoration (2026-10-08); paper reproduction not performed."
     },
     "cnn-nearest": {
       "title": "CNN embeddings with nearest-support class scoring",

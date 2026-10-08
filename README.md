@@ -86,7 +86,7 @@ amgpn/
 notebooks/
   training/ comparisons/ evaluation/ ablations/ visualization/ data/ legacy/ reference/
 docs/              # Lineage, experiment contracts and migration map
-tests/             # Structure, configuration isolation and registry checks
+tests/             # Structure, configuration isolation, registry and synthetic runtime checks
 ```
 
 `amgpn.models.backbone` owns the backbone shared by the primary method, merging ablations, analysis trainer, FEAT and UNEM. Variant-specific configuration namespaces remain isolated during both initialization and forward calls. Trainer implementations remain separate where adaptation, optimization, or result contracts differ.
@@ -197,3 +197,14 @@ Please cite the published article if this work supports your research:
 ## License
 
 No standalone code license is currently included. Code permissions, dataset licenses, and article copyright should be checked separately with their respective rights holders.
+
+## Runtime Smoke Coverage
+
+Synthetic CPU tests cover PN, GPN, AMGPN, FEAT, UNEM and the three merging
+ablations, including optimizer updates, evaluation and checkpoint restoration.
+Run `python -m unittest discover -s tests -p test_runtime_smoke.py -v` with the
+runtime dependencies installed. These tests create their own temporary external
+configuration and do not require private data or trained weights. See
+[maintenance notes](docs/MAINTENANCE.md#synthetic-cpu-runtime-smoke-tests) for
+coverage and limitations. This establishes basic runtime usability, not paper
+performance reproduction.

@@ -280,7 +280,7 @@ class GPNTrainer:
 
         with torch.no_grad():
             for task_id, meta_task in enumerate(iterator):
-                support_signals, support_labels, query_signals, query_labels = meta_task
+                support_signals, support_labels, query_signals, query_labels, *extra = meta_task
 
                 # 移动到设备
                 support_signals = support_signals.to(self.device).float().permute(1, 0, 2, 3)
@@ -557,7 +557,7 @@ class GPNTrainer:
         """
         self.model.train()
 
-        support_signals, support_labels, query_signals, query_labels = meta_batch
+        support_signals, support_labels, query_signals, query_labels, *extra = meta_batch
         batch_size = support_signals.size(0)
 
         total_loss = 0

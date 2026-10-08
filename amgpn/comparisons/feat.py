@@ -193,6 +193,8 @@ class GPNTrainer:
 
         # 加载模型参数
         self.model.load_state_dict(checkpoint['model_state_dict'])
+        if 'feat_adaptor_state_dict' in checkpoint:
+            self.feat_adaptor.load_state_dict(checkpoint['feat_adaptor_state_dict'])
 
 
         if 'loss_fn_state_dict' in checkpoint:
@@ -630,6 +632,8 @@ class GPNTrainer:
         """
 
 
+        self.model.train()
+        self.feat_adaptor.train()
         support_signals, support_labels, query_signals, query_labels, *extra = meta_batch
         batch_size = support_signals.size(0)
 
