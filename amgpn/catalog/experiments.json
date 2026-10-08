@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "experiments": {
+    "amgpn": {
+      "title": "Adaptive instance prototypes with graph merging",
+      "role": "primary",
+      "generation": "clean-amgpn",
+      "status": "maintained",
+      "module": "amgpn.models.amgpn",
+      "model": "GPN_Optimized",
+      "trainer": "GPNTrainer",
+      "prototype_head": "amgpn.losses.adaptive.MultiPrototypeGPNLoss",
+      "method_options": {
+        "use_multi": true,
+        "use_Mdistance": true
+      },
+      "config_scopes": [
+        "GPN_V4_adaMulti_clean.py",
+        "loss_ada_num_clean.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/training/prototype_family.ipynb",
+        "notebooks/evaluation/paper_comparisons.ipynb"
+      ],
+      "notes": [],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "pn": {
+      "title": "Single mean prototype with Euclidean scoring",
+      "role": "baseline",
+      "generation": "clean-amgpn",
+      "status": "maintained",
+      "module": "amgpn.models.amgpn",
+      "model": "GPN_Optimized",
+      "trainer": "GPNTrainer",
+      "prototype_head": "single-prototype branch",
+      "method_options": {
+        "use_multi": false,
+        "use_Mdistance": false
+      },
+      "config_scopes": [
+        "GPN_V4_adaMulti_clean.py",
+        "loss_ada_num_clean.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/training/prototype_family.ipynb",
+        "notebooks/evaluation/paper_comparisons.ipynb"
+      ],
+      "notes": [],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "gpn": {
+      "title": "Single Gaussian prototype with Mahalanobis scoring",
+      "role": "baseline",
+      "generation": "clean-amgpn",
+      "status": "maintained",
+      "module": "amgpn.models.amgpn",
+      "model": "GPN_Optimized",
+      "trainer": "GPNTrainer",
+      "prototype_head": "single-Gaussian branch",
+      "method_options": {
+        "use_multi": false,
+        "use_Mdistance": true
+      },
+      "config_scopes": [
+        "GPN_V4_adaMulti_clean.py",
+        "loss_ada_num_clean.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/training/prototype_family.ipynb",
+        "notebooks/evaluation/paper_comparisons.ipynb"
+      ],
+      "notes": [],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "feat": {
+      "title": "FEAT-style support self-attention and query cross-attention",
+      "role": "comparison",
+      "generation": "comparison-branch",
+      "status": "maintained",
+      "module": "amgpn.comparisons.feat",
+      "model": "GPN_Optimized",
+      "trainer": "GPNTrainer",
+      "prototype_head": "FEATAdaptor plus single prototype",
+      "method_options": {
+        "use_multi": false
+      },
+      "config_scopes": [
+        "GPN_V5_adaMulti_clean_FEAT.py",
+        "loss_ada_num_clean.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/comparisons/feat.ipynb",
+        "notebooks/evaluation/paper_comparisons.ipynb"
+      ],
+      "notes": [
+        "Distance choice is supplied explicitly or through private configuration. This is a FEAT-style implementation, not a claim of equivalence to the original FEAT release."
+      ],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "unem": {
+      "title": "UNEM-style transductive Gaussian/GMM refinement",
+      "role": "comparison",
+      "generation": "comparison-branch",
+      "status": "maintained",
+      "module": "amgpn.comparisons.unem",
+      "model": "GPN_Optimized",
+      "trainer": "GPNTrainer",
+      "prototype_head": "amgpn.losses.unem.MultiPrototypeGPNLoss",
+      "method_options": {
+        "use_multi": true,
+        "use_Mdistance": true,
+        "use_unem": true
+      },
+      "config_scopes": [
+        "GPN_V5_adaMulti_clean_UNEM.py",
+        "loss_ada_num_clean_UNEM.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/comparisons/unem.ipynb",
+        "notebooks/evaluation/paper_comparisons.ipynb"
+      ],
+      "notes": [
+        "Uses unlabeled query features during transductive refinement. Loss/head parameters are part of the optimizer."
+      ],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "merge-pairwise": {
+      "title": "Pairwise merging with instance initialization",
+      "role": "merging-ablation",
+      "generation": "clean-amgpn",
+      "status": "maintained",
+      "module": "amgpn.ablations.merging",
+      "model": "GPN_Optimized",
+      "trainer": "GPNTrainer",
+      "prototype_head": "amgpn.losses.merging.MultiPrototypeGPNLoss",
+      "method_options": {
+        "use_multi": true,
+        "use_Mdistance": true,
+        "merge_method": "pairwise"
+      },
+      "config_scopes": [
+        "GPN_V4_adaMulti_clean_clustering.py",
+        "loss_ada_num_clean_clustering.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/evaluation/merging.ipynb"
+      ],
+      "notes": [],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "merge-hierarchical": {
+      "title": "Hierarchical merging with instance initialization",
+      "role": "merging-ablation",
+      "generation": "clean-amgpn",
+      "status": "maintained",
+      "module": "amgpn.ablations.merging",
+      "model": "GPN_Optimized",
+      "trainer": "GPNTrainer",
+      "prototype_head": "amgpn.losses.merging.MultiPrototypeGPNLoss",
+      "method_options": {
+        "use_multi": true,
+        "use_Mdistance": true,
+        "merge_method": "hierarchical"
+      },
+      "config_scopes": [
+        "GPN_V4_adaMulti_clean_clustering.py",
+        "loss_ada_num_clean_clustering.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/evaluation/merging.ipynb"
+      ],
+      "notes": [],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "merge-dbscan": {
+      "title": "Dbscan merging with instance initialization",
+      "role": "merging-ablation",
+      "generation": "clean-amgpn",
+      "status": "maintained",
+      "module": "amgpn.ablations.merging",
+      "model": "GPN_Optimized",
+      "trainer": "GPNTrainer",
+      "prototype_head": "amgpn.losses.merging.MultiPrototypeGPNLoss",
+      "method_options": {
+        "use_multi": true,
+        "use_Mdistance": true,
+        "merge_method": "dbscan"
+      },
+      "config_scopes": [
+        "GPN_V4_adaMulti_clean_clustering.py",
+        "loss_ada_num_clean_clustering.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/evaluation/merging.ipynb"
+      ],
+      "notes": [],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "cnn-nearest": {
+      "title": "CNN embeddings with nearest-support class scoring",
+      "role": "secondary-baseline",
+      "generation": "comparison-branch",
+      "status": "maintained",
+      "module": "amgpn.comparisons.cnn",
+      "model": "CNN_Baseline",
+      "trainer": "CNNBaselineTrainer",
+      "prototype_head": "Euclidean nearest-support scoring",
+      "method_options": {},
+      "config_scopes": [
+        "CNN_baseline.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/comparisons/cnn_and_matching.ipynb"
+      ],
+      "notes": [
+        "The trainer is episodic; it is not a conventional supervised softmax classifier."
+      ],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "matching": {
+      "title": "Matching network support-query attention",
+      "role": "secondary-baseline",
+      "generation": "comparison-branch",
+      "status": "maintained",
+      "module": "amgpn.comparisons.matching",
+      "model": "MN_Backbone",
+      "trainer": "MatchingNetworkTrainer",
+      "prototype_head": "AttentionModule",
+      "method_options": {},
+      "config_scopes": [
+        "MN_baseline.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/comparisons/cnn_and_matching.ipynb"
+      ],
+      "notes": [],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "fixed-kmeans": {
+      "title": "Fixed-budget K-means++ multiprototypes",
+      "role": "initialization",
+      "generation": "v3",
+      "status": "reference",
+      "module": "amgpn.legacy.v3.fixed_multiprototype",
+      "model": "GPN_Optimized",
+      "trainer": "GPNTrainer",
+      "prototype_head": "amgpn.legacy.v3.fixed_prototypes_loss",
+      "method_options": {},
+      "config_scopes": [
+        "GPN_V3.py",
+        "loss.py",
+        "kmeans_plus_plus_complete.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/legacy/imp_and_kmeans.ipynb",
+        "notebooks/legacy/initialization_comparison.ipynb"
+      ],
+      "notes": [
+        "Historical architecture and trainer differ from the cleaned mainline; do not treat this as a controlled initialization-only ablation automatically."
+      ],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "imp": {
+      "title": "Supervised IMP prototype allocation",
+      "role": "initialization",
+      "generation": "v3",
+      "status": "reference",
+      "module": "amgpn.legacy.v3.imp_trainer",
+      "model": null,
+      "trainer": "GPNTrainerWithIMP",
+      "prototype_head": "amgpn.legacy.v3.imp_loss",
+      "method_options": {
+        "prototype_mode": "imp"
+      },
+      "config_scopes": [
+        "GPN_V3_IMP_onlyTrainer.py",
+        "loss_IMP.py",
+        "GPN_V4.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/legacy/imp_and_kmeans.ipynb",
+        "notebooks/legacy/initialization_comparison.ipynb"
+      ],
+      "notes": [
+        "Backbone supplied separately by the historical workflow."
+      ],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    },
+    "gmm": {
+      "title": "Iterative classwise GMM estimation",
+      "role": "initialization",
+      "generation": "v4",
+      "status": "reference",
+      "module": "amgpn.legacy.v4.gmm",
+      "model": "GPN_Optimized",
+      "trainer": "GPNTrainer",
+      "prototype_head": "amgpn.legacy.v4.gmm_loss",
+      "method_options": {
+        "use_gmm": true
+      },
+      "config_scopes": [
+        "GPN_V4_GMM.py",
+        "loss_ada_num_gmm.py",
+        "data_loader_clean.py",
+        "data_feature_show.py",
+        "feature_extracter.py",
+        "workflow"
+      ],
+      "workflows": [
+        "notebooks/legacy/gmm_exploration.ipynb",
+        "notebooks/legacy/initialization_comparison.ipynb"
+      ],
+      "notes": [
+        "Integrated code replaces the non-importable patch document. Historical interfaces require separate execution validation."
+      ],
+      "validation": "Structure and interface ownership checked; trained execution not performed."
+    }
+  },
+  "groups": {
+    "paper-main": {
+      "purpose": "Main method-family comparison corresponding to the paper discussion. Exact reported numbers require the original private settings and trained weights.",
+      "members": [
+        "pn",
+        "gpn",
+        "amgpn",
+        "feat",
+        "unem"
+      ],
+      "change_axis": "Prototype modeling or episodic adaptation/refinement",
+      "control_axes": [
+        "backbone architecture settings",
+        "class partitions",
+        "episode samples",
+        "preprocessing",
+        "training budget",
+        "evaluation protocol"
+      ],
+      "workflow": "notebooks/evaluation/paper_comparisons.ipynb"
+    },
+    "merging": {
+      "purpose": "Compare merging mechanisms while holding instance initialization fixed.",
+      "members": [
+        "amgpn",
+        "merge-pairwise",
+        "merge-hierarchical",
+        "merge-dbscan"
+      ],
+      "change_axis": "Merging rule only",
+      "control_axes": [
+        "backbone architecture settings",
+        "support/query features",
+        "distance metric",
+        "threshold policy"
+      ],
+      "workflow": "notebooks/evaluation/merging.ipynb",
+      "additional_utility": "amgpn.evaluation.comprehensive.ComprehensiveEvaluator.compare_merging_strategies also includes a no-merging control."
+    },
+    "initialization-history": {
+      "purpose": "Locate historical prototype-construction comparisons. These engines are not automatically controlled ablations.",
+      "members": [
+        "fixed-kmeans",
+        "imp",
+        "gmm",
+        "amgpn"
+      ],
+      "change_axis": "Prototype construction plus historical implementation differences",
+      "control_axes": [
+        "must be revalidated before a fair comparison"
+      ],
+      "workflow": "notebooks/legacy/imp_and_kmeans.ipynb",
+      "controlled_utility": "amgpn.evaluation.comprehensive.ComprehensiveEvaluator.compare_initialization_strategies"
+    },
+    "secondary-baselines": {
+      "purpose": "Additional episodic CNN and matching-network comparisons; separate from the five-method main table.",
+      "members": [
+        "cnn-nearest",
+        "matching"
+      ],
+      "change_axis": "Backbone/scoring design",
+      "control_axes": [
+        "class partitions",
+        "episode samples",
+        "data preprocessing"
+      ],
+      "workflow": "notebooks/comparisons/cnn_and_matching.ipynb"
+    }
+  }
+}

@@ -49,27 +49,49 @@ The following accuracies are reported in the published paper. They are not resul
 
 RFUAV evaluation keeps the feature extractor and learned parameters fixed. Support samples are used only to construct prototypes at inference time, without RFUAV fine-tuning or dataset-specific hyperparameter revalidation. See the paper for confidence intervals, baseline comparisons, ablations, and efficiency measurements.
 
+## Start Here
+
+Use method identities instead of selecting a version-numbered file:
+
+```bash
+python -m amgpn list --group paper-main
+python -m amgpn describe amgpn
+python -m amgpn groups
+python -m amgpn check
+```
+
+These commands inspect the catalog and source structure without importing PyTorch, loading weights, or starting training.
+
+- [Implementation lineage](docs/LINEAGE.md): what the old generations actually contain, and which relationships are source adaptations rather than class inheritance.
+- [Experiment groups](docs/EXPERIMENTS.md): main comparisons, merging ablations, historical initialization studies, and additional baselines.
+- [Maintenance guide](docs/MAINTENANCE.md): component ownership, configuration compatibility, checks, and how to add a method.
+- [Migration map](docs/migration_map.json): every original source/notebook location and its replacement.
+
 ## Repository Layout
 
-| File or directory | Purpose |
-| --- | --- |
-| `GPN_V4_adaMulti_clean.py` | Core AMGPN backbone and episodic trainer |
-| `loss_ada_num_clean.py` | Instance-level prototypes, connected-component merging, and classification loss |
-| `data_loader_clean.py` | Spectrogram dataset and support/query episode sampling |
-| `GPN_V4_adaMulti_clean_clustering.py`, `loss_ada_num_clean_clustering.py` | Alternative prototype-merging and clustering strategies |
-| `GPN_V5_adaMulti_clean_FEAT.py` | FEAT-style embedding-adaptation comparison |
-| `GPN_V5_adaMulti_clean_UNEM.py`, `loss_ada_num_clean_UNEM.py` | UNEM-style transductive EM comparison |
-| `CNN_baseline.py`, `MN_baseline.py` | Supervised classification and matching-network baselines |
-| `GPN_V3*.py`, `GPN_V4*.py`, `GMM/`, `old/` | Earlier implementations, fixed multiprototype variants, and GMM patch material |
-| `multi_model_evaluation.py`, `run_eval_example.py` | Multi-model evaluation and visualization-data collection |
-| `para_and_indexes_collection*.py`, `timing_utils.py` | Parameter counts, computational cost, timing, and deployment profiling |
-| `draw_*.py`, `prototype_analysis.py`, `evaluation_module_*.py` | Plotting, prototype analysis, Grad-CAM, t-SNE, and heatmaps |
-| `GPN_V5.ipynb`, `GPN_V5_test.ipynb`, and other notebooks | Training, comparison, and analysis workflows |
-| `GPN_UAV_data/*.ipynb` | Dataset acquisition and format conversion |
-| `private_config.py` | External configuration loading, validation, and lazy default resolution |
-| `private_config.example.json`, `private_config.schema.json` | Empty configuration template and expected value types |
+```text
+amgpn/
+  models/          # Primary AMGPN trainer and one shared backbone
+  comparisons/     # FEAT, UNEM, episodic CNN and matching-network methods
+  ablations/       # Controlled merging strategy variants
+  losses/          # Adaptive, merging and UNEM prototype heads
+  data/            # Episode sampling, preprocessing and feature maps
+  evaluation/      # Analysis trainer, comparison and paper analysis utilities
+  visualization/   # Figures, heatmaps, Grad-CAM and prototype analysis
+  profiling/       # Deployment and timing utilities
+  clustering/      # Reusable K-means implementation
+  legacy/          # Original, V2, V3 and exploratory V4 implementations
+  catalog/         # Authoritative method/group definitions
+  config_templates/# Empty templates; no real experimental values
+notebooks/
+  training/ comparisons/ evaluation/ ablations/ visualization/ data/ legacy/ reference/
+docs/              # Lineage, experiment contracts and migration map
+tests/             # Structure, configuration isolation and registry checks
+```
 
-Historical scripts and notebooks may use different interfaces. Choose matching model, loss, and dataset modules according to their imports. `GMM/` includes integration patch material, and some notebook examples require user-supplied dataset objects. These workflows do not constitute a single command that reproduces every paper result.
+`amgpn.models.backbone` owns the backbone shared by the primary method, merging ablations, analysis trainer, FEAT and UNEM. Variant-specific configuration namespaces remain isolated during both initialization and forward calls. Trainer implementations remain separate where adaptation, optimization, or result contracts differ.
+
+The old `V5` label represented FEAT/UNEM comparison branches, not a fifth AMGPN generation. Historical initialization engines have reference status and cannot be constructed accidentally through the maintained factory. Some historical workflows still need execution-level interface validation; source migration is not evidence of paper-result reproduction.
 
 ## Dependencies
 
@@ -82,30 +104,33 @@ python -m pip install -r requirements.txt
 
 # For notebooks, additional baselines, profiling, or dataset preparation:
 python -m pip install -r requirements-optional.txt
+
+# Make package imports work from any notebook directory:
+python -m pip install -e .
 ```
 
 Dataset preparation, training, evaluation, and plotting are separate workflows. Installing dependencies does not start them.
 
 ## External Configuration
 
-`private_config.example.json` contains configuration keys with `null` values. It contains no actual experiment values. Create a configuration file **outside the repository**, then fill the entries required by your selected workflow.
+`amgpn/config_templates/private_config.example.json` contains configuration keys with `null` values. It contains no actual experiment values. Create a configuration file **outside the repository**, then fill the entries required by your selected workflow.
 
 ```bash
 mkdir -p ../amgpn-private
-cp private_config.example.json ../amgpn-private/config.json
+cp amgpn/config_templates/private_config.example.json ../amgpn-private/config.json
 chmod 600 ../amgpn-private/config.json
 
 # Fill the required entries before running a workflow.
 export AMGPN_PRIVATE_CONFIG="$(cd ../amgpn-private && pwd)/config.json"
 
 # List configuration names and types without displaying their values.
-python private_config.py --list-keys --scope GPN_V4_adaMulti_clean.py
+python -m amgpn config-keys amgpn
 
 # Validate settings without loading a model or dataset.
-python private_config.py --check --scope GPN_V4_adaMulti_clean.py
+python -m amgpn.config --check --scope GPN_V4_adaMulti_clean.py
 ```
 
-Keys identify their source file, class or function, and, for notebooks, cell index. Suffixes such as `__2` distinguish repeated configuration locations within a scope. Configurable values cover episode sampling, optimization, training budgets, preprocessing, network dimensions, prototype merging, and dataset/checkpoint locations.
+Configuration keys retain their original file/class/function and notebook-cell identifiers for compatibility with existing external files. They are stable configuration identities, not current source paths; consult the migration map and experiment catalog for ownership. Suffixes such as `__2` distinguish repeated configuration locations within a scope. Configurable values cover episode sampling, optimization, training budgets, preprocessing, network dimensions, prototype merging, and dataset/checkpoint locations.
 
 `--scope` checks only keys with the specified prefix. A complete workflow also needs the settings used by its dataset, loss, and other imported modules. Running `--check` without a scope checks the entire template, including historical variants. You only need to populate settings used by the workflow you intend to run.
 
@@ -114,15 +139,10 @@ Explicit function arguments take precedence over external defaults. Experiment d
 For example, the core model and trainer can be initialized as follows after supplying the required configuration:
 
 ```python
-from GPN_V4_adaMulti_clean import GPN_Optimized, GPNTrainer
+from amgpn.experiments import create_experiment
 
-model = GPN_Optimized()
-trainer = GPNTrainer(
-    model=model,
-    device="cpu",  # Select a device available in your environment.
-    use_Mdistance=True,
-    use_multi=True,
-)
+components = create_experiment("amgpn", device="cpu")
+model, trainer = components.model, components.trainer
 ```
 
 This example illustrates initialization only. Training and evaluation also require prepared datasets, episode samplers, data loaders, and matching configuration. Empty templates are insufficient to reproduce the published results.
@@ -143,11 +163,11 @@ Class directory names must be convertible to integers. Each selected class needs
 
 1. Prepare spectrograms using the dataset notebooks and configure an accessible external data location.
 2. Select a workflow and its matching modules, and supply their required settings.
-3. Train the selected model and save checkpoints outside the repository.
-4. Configure the corresponding checkpoint location and run evaluation or ablations.
+3. Use `notebooks/training/prototype_family.ipynb` for a named prototype method, with class-disjoint training/validation roots, and save checkpoints outside the repository.
+4. Use `notebooks/evaluation/paper_comparisons.ipynb` for the five-method comparison; merging, preprocessing and threshold studies have separate notebooks.
 5. Use the analysis and plotting utilities with results from that execution.
 
-Launch notebooks from the repository root so project modules remain importable:
+After the editable install, launch Jupyter from the repository root and open the named workflow under `notebooks/`:
 
 ```bash
 python -m jupyterlab

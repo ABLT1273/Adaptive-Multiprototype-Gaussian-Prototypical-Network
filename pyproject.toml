@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amgpn-research"
+version = "0.1.0"
+description = "Organized research implementations and experiment catalog for AMGPN"
+requires-python = ">=3.9"
+
+[tool.setuptools.packages.find]
+include = ["amgpn*"]
+
+[tool.setuptools.package-data]
+amgpn = ["catalog/*.json", "config_templates/*.json"]

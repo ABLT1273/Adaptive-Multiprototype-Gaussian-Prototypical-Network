@@ -59,3 +59,7 @@ __pycache__/
 .ipynb_checkpoints/
 .venv/
 .DS_Store
+*.egg-info/
+build/
+dist/
+.pytest_cache/
