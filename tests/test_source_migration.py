@@ -2,6 +2,7 @@ import ast
 import json
 from pathlib import Path
 import re
+import subprocess
 import unittest
 
 
@@ -9,6 +10,13 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 class MigrationTests(unittest.TestCase):
+    def test_data_source_directories_are_not_ignored_as_private_datasets(self):
+        for relative in ["amgpn/data/episodes.py", "amgpn/data/preprocessing.py", "notebooks/data/download.ipynb"]:
+            result = subprocess.run(["git", "check-ignore", "--no-index", "-q", relative], cwd=ROOT)
+            self.assertEqual(result.returncode, 1, relative)
+        result = subprocess.run(["git", "check-ignore", "--no-index", "-q", "data/private_notes.txt"], cwd=ROOT)
+        self.assertEqual(result.returncode, 0)
+
     def test_all_old_locations_have_existing_replacements(self):
         mapping = json.loads((ROOT / "docs/migration_map.json").read_text())
         for section in mapping.values():

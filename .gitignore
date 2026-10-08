@@ -23,9 +23,9 @@ secrets.*
 GPN_model/
 GPN_UAV_data/DroneRFb-Spectra/
 GPN_UAV_data/RFUAV*/
-data/
-datasets/
-results/
+/data/
+/datasets/
+/results/
 index_results/
 pic/
 gradcam_results/
