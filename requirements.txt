@@ -1,0 +1,12 @@
+# Runtime dependencies inferred from the source imports; versions are not locked.
+torch
+numpy
+scipy
+pandas
+scikit-learn
+matplotlib
+seaborn
+tqdm
+opencv-python
+PyWavelets
+Pillow

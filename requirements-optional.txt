@@ -1,0 +1,7 @@
+# Notebook workflows, profiling, baseline variants and dataset preparation.
+jupyterlab
+ipykernel
+thop
+higher
+pyarrow
+huggingface-hub
