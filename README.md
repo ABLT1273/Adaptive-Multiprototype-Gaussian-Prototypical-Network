@@ -20,7 +20,7 @@ AMGPN uses episodic meta-learning. Each episode contains a labeled support set a
 For a support sample $x_{c,j}$, the initial prototype is defined by
 
 $$
-\mu_{c,j}=v_{c,j},\qquad P_{c,j}=\operatorname{diag}(1+\operatorname{softplus}(s_{c,j})),
+\mu_{c,j}=v_{c,j},\qquad P_{c,j}=\mathrm{diag}(1+\mathrm{softplus}(s_{c,j})),
 $$
 
 where $P_{c,j}$ is a **precision matrix**. The pairwise distance used to construct the merging graph is
@@ -33,7 +33,7 @@ The threshold defines graph connectivity, and connected components determine the
 
 $$
 D(z_q,c)=\min_m\sqrt{(z_q-\mu_c^m)^\top P_c^m(z_q-\mu_c^m)},\qquad
-P(y=c\mid z_q)=\operatorname{softmax}_c(-D(z_q,c)).
+P(y=c\mid z_q)=\mathrm{softmax}_c(-D(z_q,c)).
 $$
 
 The implementation retains the algorithm's mathematical constants, tensor operations, and numerical stability terms. Experiment-specific settings are loaded externally.
